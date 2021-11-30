@@ -173,7 +173,7 @@ void gameStart(GameData* data, Player* players) {
 	Sleep(2500);
 	system("cls");
 	data->gameStage = MAIN_MENU_STAGE;
-	printf("STAGE");
+	//printf("STAGE");
 	gameLoop(data, players);
 }
 

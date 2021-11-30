@@ -57,5 +57,9 @@ int main()
 	gameStart(&data, players);
 
 	Cleanup(data.map, data.rows);
+
+	printf("\n\nPress Any Key to Continue\n");
+	getch();
+
 	return data.errorCode;
 }

@@ -417,11 +417,11 @@ void playerShoot(GameData* data, Player* players) {
 			double time = tempY / velocityY;
 			curX = (velocityX * time) - (0.5 * 10 * pow(time, 2));
 
-			printf("Row:%f Col:%d \n ", x - (curX), tempY);
+			//printf("Row:%f Col:%d \n ", x - (curX), tempY);
 
 			if (x - (int)curX > 0 && x - (int)curX < data->rows) {
 				if (data->map[x - (int)curX][y] != ' ') {
-					printf("HIT %c", data->map[x - (int)curX][y]);
+					//printf("HIT %c", data->map[x - (int)curX][y]);
 					hit = true;
 					if (data->map[x - (int)curX][y] == 'T') {
 						//CENTER
