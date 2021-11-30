@@ -8,6 +8,10 @@
 
 void updatePlayerPosition(GameData* data, Player* players) {
 	for (int i = 0; i < data->playerCount; i++) {
+		if (players[i].hp == 0) {
+			data->map[players[i].tankX][players[i].tankY] = ' ';
+			continue;
+		}
 
 		int j = players[i].tankX;
 		while (data->map[j + 1][players[i].tankY] == ' ') {
@@ -200,7 +204,8 @@ void loadMap(GameData* data, Player* players) {
 	}
 }
 void assignTanks(GameData* data, Player* players) {
-
+	time_t t;
+	srand((unsigned)time(&t));
 	int k = (rand() % ((data->playerCount - 1) - 0 + 1)) + 0;
 	int startNum = k;
 
@@ -224,24 +229,26 @@ void spawnPlayers(GameData* data, Player* players) {
 	srand((unsigned)time(&t));
 
 	for (int i = 0; i < data->playerCount; i++) {
+		bool posFound = false;
 		int random = (rand() % ((data->cols - 1) - 0 + 1)) + 0;
 		for (int j = 1; j < data->rows; j++) {
 			if (data->map[j][random] == '=' && data->map[j - 1][random] == ' ') {
 				data->map[j - 1][random] = 'T';
+				posFound = true;
 				break;
 			}
-			else {
-				for (int k = 1; k < data->rows; k++) {
-					for (int l = 1; l < data->cols; l++) {
-						if (data->map[k][l] == '=' && data->map[k-1][l] == ' ') {
-							data->map[k - 1][l] = 'T';
-							k = data->rows;
-							l = data->cols;
-						}
+		}
+		if (posFound == false) {
+			for (int k = 1; k < data->rows; k++) {
+				for (int l = 1; l < data->cols; l++) {
+					if (data->map[k][l] == '=' && data->map[k - 1][l] == ' ') {
+						data->map[k - 1][l] = 'T';
+						k = data->rows;
+						l = data->cols;
 					}
 				}
-				break;
 			}
+
 		}
 	}
 }
@@ -511,12 +518,15 @@ void tankTakeDamage(GameData* data, Player* players, int x, int y) {
 }
 
 void updateInitiative(GameData* data, Player* players) {
-	data->initiative += 1;
 
-	if (players[data->initiative].hp <= 0)
-		updateInitiative(data, players);
+	data->initiative += 1;
 
 	if (data->initiative >= data->playerCount) {
 		data->initiative = 0;
 	}
+
+	if (players[data->initiative].hp <= 0)
+		updateInitiative(data, players);
+
+
 }
